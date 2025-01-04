@@ -5,7 +5,7 @@ function Header({
   bgColor = "rgba(0,0,0,0.4)",
   textColor = "#ff6a95",
 }) {
-  console.log(text);
+  // console.log(text);
   const headerStyles = {
     backgroundColor: bgColor,
     color: textColor,
