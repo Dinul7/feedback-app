@@ -7,6 +7,7 @@ function AboutIconLink() {
       <Link to="/about">
         <FaQuestion size={30} />
       </Link>
+
       {/* <Link
         to={{
           pathname: "/about",
