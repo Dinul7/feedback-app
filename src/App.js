@@ -17,6 +17,7 @@ import FeedbackData from "./data/FeedbackData";
 import FeedbackStats from "./components/FeedbackStats";
 import FeedbackForm from "./components/FeedbackForm";
 import AboutPage from "./pages/AboutPage";
+import { FeedbackProvider } from "./contex/FeedbackContext";
 import AboutIconLink from "./components/AboutIconLink";
 
 import Card from "./components/shared/Card";
@@ -34,29 +35,27 @@ function App() {
     }
   };
   return (
-    <Router>
-      <Header />
-      <div className="container">
-        <Routes>
-          <Route
-            exact
-            path="/"
-            element={
-              <>
-                <FeedbackForm handleAdd={addFeedBack} />
-                <FeedbackStats feedback={feedback} />
-                <FeedbackList
-                  feedback={feedback}
-                  handleDelete={deleteFeedback}
-                />
-              </>
-            }
-          ></Route>
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/post/*" element={<Post />} />
-        </Routes>
+    <FeedbackProvider>
+      <Router>
+        <Header />
+        <div className="container">
+          <Routes>
+            <Route
+              exact
+              path="/"
+              element={
+                <>
+                  <FeedbackForm handleAdd={addFeedBack} />
+                  <FeedbackStats />
+                  <FeedbackList handleDelete={deleteFeedback} />
+                </>
+              }
+            ></Route>
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/post/*" element={<Post />} />
+          </Routes>
 
-        {/* <Card>
+          {/* <Card>
           <NavLink to="/" activeClassName="active">
             Home
           </NavLink>
@@ -64,9 +63,10 @@ function App() {
             HAbout
           </NavLink>
         </Card> */}
-      </div>
-      <AboutIconLink />
-    </Router>
+        </div>
+        <AboutIconLink />
+      </Router>
+    </FeedbackProvider>
   );
 }
 
