@@ -1,7 +1,7 @@
 import { createContext, useState, useEffect } from "react";
 
 // Api
-import { v4 as uuidv4 } from "uuid";
+// import { v4 as uuidv4 } from "uuid";
 
 const FeedbackContext = createContext();
 
@@ -27,21 +27,36 @@ export const FeedbackProvider = ({ children }) => {
   };
 
   //Update feedback item
-  const updateFeedback = (id, updItem) => {
+  const updateFeedback = async (id, updItem) => {
+    const response = await fetch(`/feedback/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "aplication/json" },
+      body: JSON.stringify(updItem),
+    });
+    const data = await response.json();
     setFeedBack(
-      feedback.map((item) => (item.id === id ? { ...item, ...updItem } : item))
+      feedback.map((item) => (item.id === id ? { ...item, ...data } : item))
     );
   };
 
   //Add feedback
-  const addFeedBack = (newFeedback) => {
-    newFeedback.id = uuidv4();
-    setFeedBack([newFeedback, ...feedback]);
+  const addFeedBack = async (newFeedback) => {
+    const response = await fetch("/feedback", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newFeedback),
+    });
+    const data = await response.json();
+
+    setFeedBack([data, ...feedback]);
   };
 
   //Delete feedback
-  const deleteFeedback = (id) => {
+  const deleteFeedback = async (id) => {
     if (window.confirm("Are you sure you want to delete?")) {
+      await fetch(`/feedback/${id}`, { method: "DELETE" });
       setFeedBack(feedback.filter((item) => item.id !== id));
     }
   };
